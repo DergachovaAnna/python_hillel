@@ -27,23 +27,23 @@ class TxtProxyReaderWriter:
     def write_file(self, new_data, mode='w'):
         if mode == 'a':
             new_data = ',\n' + new_data
-        self.__txt_writer.write(new_data, mode)
-        self.__is_actual = False
-        self.__result = ''
-        return f'File updated'
+        if not (new_data == self.__result and mode == 'w'):
+            self.__txt_writer.write(new_data, mode)
+            self.__is_actual = False
+            self.__result = ''
+        else:
+            self.__is_actual = True
+        return 'File updated'
 
 
 if __name__ == '__main__':
     proxy_reader = TxtProxyReaderWriter('file.txt')
 
+    # print(proxy_reader.read_file())
+    # print(id(proxy_reader.get_result))
+    # print(proxy_reader.write_file('test'))
+    # print(id(proxy_reader.get_result))
+
     print(proxy_reader.read_file())
-    print(proxy_reader.get_result)
-    print('\n')
-    print(proxy_reader.write_file('new1', 'a'))
-    print(proxy_reader.get_result)
-    print(proxy_reader.write_file('new2', 'a'))
-    print(proxy_reader.read_file())
-    print(proxy_reader.get_result)
-    print(proxy_reader.write_file('new3', 'w'))
-    print(proxy_reader.read_file())
+    print(proxy_reader.write_file('test13'))
     print(proxy_reader.get_result)
